@@ -1,12 +1,11 @@
 import React from "react";
 
-import { Button } from "@/components/ui/button";
+import Authentication from "./authentication/page";
 
 function page() {
   return (
     <div>
-      <div>Bewear</div>
-      <Button></Button>
+      <Authentication />
     </div>
   );
 }
