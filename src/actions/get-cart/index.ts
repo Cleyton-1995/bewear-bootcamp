@@ -24,6 +24,7 @@ export const getCart = async () => {
             },
           },
         },
+        orderBy: (cartItem, { asc }) => [asc(cartItem.id)],
       },
     },
   });
