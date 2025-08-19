@@ -73,6 +73,12 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
 
         <ProductActions productVariantId={productVariant.id} />
 
+        <div className="px-5">
+          <p className="text-shadow-amber-600">
+            {productVariant.product.description}
+          </p>
+        </div>
+
         <ProductList title="Talvez você goste" products={likelyProducts} />
 
         <Footer />
