@@ -2,6 +2,7 @@
 
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,6 @@ import {
   DialogContent,
   DialogDescription,
   DialogFooter,
-  DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useFinishOrder } from "@/hooks/mutations/use-finish-order";
@@ -18,15 +18,10 @@ import { useFinishOrder } from "@/hooks/mutations/use-finish-order";
 const FinishOrderButton = () => {
   const [successDialogIsOpen, setSuccessDialogIsOpen] = useState(false);
   const finishOrderMutation = useFinishOrder();
-
   const handleFinishOrder = () => {
-    finishOrderMutation.mutate(undefined, {
-      onSuccess: () => {
-        setSuccessDialogIsOpen(true);
-      },
-    });
+    finishOrderMutation.mutate();
+    setSuccessDialogIsOpen(true);
   };
-
   return (
     <>
       <Button
@@ -52,15 +47,20 @@ const FinishOrderButton = () => {
           <DialogTitle className="mt-4 text-2xl">Pedido efetuado!</DialogTitle>
           <DialogDescription className="font-medium">
             Seu pedido foi efetuado com sucesso. Você pode acompanhar o status
-            na seção de &ldquo;Meus Pedidos&rdquo;.
+            na seção de “Meus Pedidos”.
           </DialogDescription>
 
           <DialogFooter>
             <Button className="rounded-full" size="lg">
               Ver meus pedidos
             </Button>
-            <Button className="rounded-full" variant="outline" size="lg">
-              Voltar para a loja
+            <Button
+              className="rounded-full"
+              variant="outline"
+              size="lg"
+              asChild
+            >
+              <Link href="/">Voltar para a loja</Link>
             </Button>
           </DialogFooter>
         </DialogContent>
