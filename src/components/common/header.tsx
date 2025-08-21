@@ -1,15 +1,15 @@
 "use client";
-
-import { LogInIcon, LogOutIcon, MenuIcon } from "lucide-react";
+import { LogInIcon, LogOutIcon, MenuIcon, Truck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { authClient } from "@/lib/auth-client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
 import {
   Sheet,
   SheetContent,
@@ -20,6 +20,7 @@ import {
 import { Cart } from "./cart";
 
 export const Header = () => {
+  const pathname = usePathname();
   const router = useRouter();
   const { data: session } = authClient.useSession();
 
@@ -81,6 +82,24 @@ export const Header = () => {
                       <LogOutIcon />
                     </Button>
                   </div>
+
+                  {pathname !== "/my-orders" && (
+                    <>
+                      <div className="m-5">
+                        <Separator />
+                      </div>
+
+                      <div>
+                        <Link
+                          href="/my-orders"
+                          className="flex items-center gap-2 text-sm font-medium"
+                        >
+                          <Truck className="h-4 w-4" />
+                          Meus Pedidos
+                        </Link>
+                      </div>
+                    </>
+                  )}
                 </>
               ) : (
                 <div className="flex items-center justify-between">
