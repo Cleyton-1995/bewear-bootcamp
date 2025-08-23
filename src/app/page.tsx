@@ -58,7 +58,9 @@ async function Home() {
         </div>
 
         <ProductList products={newlyCreatedProducts} title="Novos produtos" />
-        <Footer />
+        <div className="mt-12">
+          <Footer />
+        </div>
       </div>
     </>
   );
