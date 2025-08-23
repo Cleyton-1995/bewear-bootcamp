@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 
 import Footer from "@/components/common/footer";
 import { Header } from "@/components/common/header";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { db } from "@/db";
 import { orderTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
@@ -35,23 +36,30 @@ const MyOrdersPage = async () => {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <div className="flex-1 space-y-5 px-5">
-        <Orders
-          orders={orders.map((order) => ({
-            id: order.id,
-            totalPriceInCents: order.totalPriceInCents,
-            status: order.status,
-            createdAt: order.createdAt,
-            items: order.items.map((item) => ({
-              id: item.id,
-              imageUrl: item.productVariant.imageUrl,
-              productName: item.productVariant.product.name,
-              productVariantName: item.productVariant.name,
-              priceInCents: item.productVariant.priceInCents,
-              quantity: item.quantity,
-            })),
-          }))}
-        />
+      <div className="mx-5">
+        <Card>
+          <div className="flex-1 space-y-5 px-5">
+            <CardHeader>
+              <CardTitle>Meus Pedidos</CardTitle>
+            </CardHeader>
+            <Orders
+              orders={orders.map((order) => ({
+                id: order.id,
+                totalPriceInCents: order.totalPriceInCents,
+                status: order.status,
+                createdAt: order.createdAt,
+                items: order.items.map((item) => ({
+                  id: item.id,
+                  imageUrl: item.productVariant.imageUrl,
+                  productName: item.productVariant.product.name,
+                  productVariantName: item.productVariant.name,
+                  priceInCents: item.productVariant.priceInCents,
+                  quantity: item.quantity,
+                })),
+              }))}
+            />
+          </div>
+        </Card>
       </div>
       <div className="mt-12">
         <Footer />
