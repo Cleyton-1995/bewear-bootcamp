@@ -11,15 +11,27 @@ import { auth } from "@/lib/auth";
 
 import Orders from "./components/orders";
 
+// Função auxiliar para formatar a data para exibição
+export const formatLocalDate = (date: Date) =>
+  date.toLocaleString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
 const MyOrdersPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+
   if (!session?.user.id) {
     redirect("/login");
   }
+
   const orders = await db.query.orderTable.findMany({
-    where: eq(orderTable.userId, session?.user.id),
+    where: eq(orderTable.userId, session.user.id),
     with: {
       items: {
         with: {
@@ -36,9 +48,9 @@ const MyOrdersPage = async () => {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <div className="mx-5">
+      <div className="flex-1 space-y-5 px-5">
         <Card>
-          <div className="flex-1 space-y-5 px-5">
+          <div className="mx-5">
             <CardHeader>
               <CardTitle>Meus Pedidos</CardTitle>
             </CardHeader>
@@ -47,7 +59,7 @@ const MyOrdersPage = async () => {
                 id: order.id,
                 totalPriceInCents: order.totalPriceInCents,
                 status: order.status,
-                createdAt: order.createdAt,
+                createdAt: new Date(order.createdAt),
                 items: order.items.map((item) => ({
                   id: item.id,
                   imageUrl: item.productVariant.imageUrl,
@@ -61,6 +73,7 @@ const MyOrdersPage = async () => {
           </div>
         </Card>
       </div>
+
       <div className="mt-12">
         <Footer />
       </div>

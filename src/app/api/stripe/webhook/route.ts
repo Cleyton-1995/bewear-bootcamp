@@ -31,6 +31,7 @@ export const POST = async (request: Request) => {
       .update(orderTable)
       .set({
         status: "paid",
+        createdAt: new Date(),
       })
       .where(eq(orderTable.id, orderId));
   }
