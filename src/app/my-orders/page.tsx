@@ -11,27 +11,15 @@ import { auth } from "@/lib/auth";
 
 import Orders from "./components/orders";
 
-// Função auxiliar para formatar a data para exibição
-export const formatLocalDate = (date: Date) =>
-  date.toLocaleString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-
 const MyOrdersPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-
   if (!session?.user.id) {
     redirect("/login");
   }
-
   const orders = await db.query.orderTable.findMany({
-    where: eq(orderTable.userId, session.user.id),
+    where: eq(orderTable.userId, session?.user.id),
     with: {
       items: {
         with: {
@@ -55,11 +43,11 @@ const MyOrdersPage = async () => {
               <CardTitle>Meus Pedidos</CardTitle>
             </CardHeader>
             <Orders
-              orders={orders.map((order) => ({
+              orders={orders.reverse().map((order) => ({
                 id: order.id,
                 totalPriceInCents: order.totalPriceInCents,
                 status: order.status,
-                createdAt: new Date(order.createdAt),
+                createdAt: order.createdAt,
                 items: order.items.map((item) => ({
                   id: item.id,
                   imageUrl: item.productVariant.imageUrl,
