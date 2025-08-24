@@ -38,7 +38,7 @@ const MyOrdersPage = async () => {
       <Header />
       <div className="flex-1 space-y-5 px-5">
         <Card>
-          <div className="mx-5">
+          <div className="mx-5 space-y-5">
             <CardHeader>
               <CardTitle>Meus Pedidos</CardTitle>
             </CardHeader>
