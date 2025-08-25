@@ -25,7 +25,7 @@ export const Cart = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button id="cart-button" variant="outline" size="icon">
           <ShoppingBasketIcon />
         </Button>
       </SheetTrigger>

@@ -1,5 +1,12 @@
 "use client";
-import { LogInIcon, LogOutIcon, MenuIcon, Truck } from "lucide-react";
+import {
+  Home,
+  LogInIcon,
+  LogOutIcon,
+  MenuIcon,
+  ShoppingBasketIcon,
+  Truck,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -85,10 +92,19 @@ export const Header = () => {
 
                   {pathname !== "/my-orders" && (
                     <>
-                      <div className="m-5">
+                      <div>
+                        <Link
+                          href="/"
+                          onClick={() => setOpen(false)}
+                          className="flex items-center gap-2 text-sm font-medium"
+                        >
+                          <Home className="h-4 w-4" />
+                          Inicío
+                        </Link>
+                      </div>
+                      <div className="m-3">
                         <Separator />
                       </div>
-
                       <div>
                         <Link
                           href="/my-orders"
@@ -97,6 +113,22 @@ export const Header = () => {
                           <Truck className="h-4 w-4" />
                           Meus Pedidos
                         </Link>
+                      </div>
+
+                      <div className="m-3">
+                        <Separator />
+                      </div>
+                      <div
+                        onClick={() => {
+                          setOpen(false);
+                          document
+                            .querySelector<HTMLButtonElement>("#cart-button")
+                            ?.click();
+                        }}
+                        className="flex cursor-pointer items-center gap-2 text-sm font-medium"
+                      >
+                        <ShoppingBasketIcon className="h-4 w-4" />
+                        Sacola
                       </div>
                     </>
                   )}
