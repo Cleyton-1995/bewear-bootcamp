@@ -1,6 +1,6 @@
 "use client";
 
-import { ShoppingBasketIcon } from "lucide-react";
+import { ShoppingBag, ShoppingBasketIcon } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -26,7 +26,7 @@ export const Cart = () => {
     <Sheet>
       <SheetTrigger asChild>
         <Button id="cart-button" variant="outline" size="icon">
-          <ShoppingBasketIcon />
+          <ShoppingBag />
         </Button>
       </SheetTrigger>
 

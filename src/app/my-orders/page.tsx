@@ -35,7 +35,6 @@ const MyOrdersPage = async () => {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
       <div className="flex-1 space-y-5 px-5">
         <Card>
           <div className="mx-5 space-y-5">

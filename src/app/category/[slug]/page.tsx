@@ -8,26 +8,27 @@ import { db } from "@/db";
 import { categoryTable, productTable } from "@/db/schema";
 
 interface CategoryPageProps {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
 const CategoryPage = async ({ params }: CategoryPageProps) => {
-  const { slug } = await params;
+  const { slug } = params;
+
   const category = await db.query.categoryTable.findFirst({
     where: eq(categoryTable.slug, slug),
   });
-  if (!category) {
-    return notFound();
-  }
+
+  if (!category) return notFound();
+
   const products = await db.query.productTable.findMany({
     where: eq(productTable.categoryId, category.id),
-    with: {
-      variants: true,
-    },
+    with: { variants: true },
   });
+
+  const categories = await db.query.categoryTable.findMany({});
+
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
       <div className="flex-1 space-y-5 px-5">
         <h2 className="text-xl font-semibold">{category.name}</h2>
         <div className="grid grid-cols-2 gap-4">

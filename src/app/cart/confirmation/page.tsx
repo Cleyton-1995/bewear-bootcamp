@@ -48,7 +48,6 @@ const ConfirmationPage = async () => {
   }
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
       <div className="flex-1 space-y-4 px-5">
         <Card>
           <CardHeader>

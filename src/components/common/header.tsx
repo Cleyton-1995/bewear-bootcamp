@@ -4,12 +4,12 @@ import {
   LogInIcon,
   LogOutIcon,
   MenuIcon,
-  ShoppingBasketIcon,
+  ShoppingBag,
   Truck,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { authClient } from "@/lib/auth-client";
@@ -26,11 +26,13 @@ import {
 } from "../ui/sheet";
 import { Cart } from "./cart";
 
-export const Header = () => {
-  const pathname = usePathname();
+interface HeaderProps {
+  categories?: { id: string; name: string; slug: string }[];
+}
+
+export const Header = ({ categories }: HeaderProps) => {
   const router = useRouter();
   const { data: session } = authClient.useSession();
-
   const [open, setOpen] = useState(false);
 
   async function handleLogout() {
@@ -61,7 +63,7 @@ export const Header = () => {
             <div className="px-5">
               {session?.user ? (
                 <>
-                  <div className="flex justify-between space-y-6">
+                  <div className="flex justify-between space-y-3">
                     <div className="flex items-center gap-3">
                       <Avatar>
                         <AvatarImage
@@ -73,7 +75,7 @@ export const Header = () => {
                         </AvatarFallback>
                       </Avatar>
 
-                      <div>
+                      <div className="text-left">
                         <h3 className="font-semibold">{session?.user?.name}</h3>
                         <span className="text-muted-foreground block text-xs">
                           {session?.user?.email}
@@ -89,49 +91,6 @@ export const Header = () => {
                       <LogOutIcon />
                     </Button>
                   </div>
-
-                  {pathname !== "/my-orders" && (
-                    <>
-                      <div>
-                        <Link
-                          href="/"
-                          onClick={() => setOpen(false)}
-                          className="flex items-center gap-2 text-sm font-medium"
-                        >
-                          <Home className="h-4 w-4" />
-                          Inicío
-                        </Link>
-                      </div>
-                      <div className="m-3">
-                        <Separator />
-                      </div>
-                      <div>
-                        <Link
-                          href="/my-orders"
-                          className="flex items-center gap-2 text-sm font-medium"
-                        >
-                          <Truck className="h-4 w-4" />
-                          Meus Pedidos
-                        </Link>
-                      </div>
-
-                      <div className="m-3">
-                        <Separator />
-                      </div>
-                      <div
-                        onClick={() => {
-                          setOpen(false);
-                          document
-                            .querySelector<HTMLButtonElement>("#cart-button")
-                            ?.click();
-                        }}
-                        className="flex cursor-pointer items-center gap-2 text-sm font-medium"
-                      >
-                        <ShoppingBasketIcon className="h-4 w-4" />
-                        Sacola
-                      </div>
-                    </>
-                  )}
                 </>
               ) : (
                 <div className="flex items-center justify-between">
@@ -148,6 +107,64 @@ export const Header = () => {
                   </Button>
                 </div>
               )}
+
+              <div className="my-5">
+                <Separator />
+              </div>
+
+              <div className="flex flex-col gap-2 text-left">
+                <Link
+                  href="/"
+                  onClick={() => setOpen(false)}
+                  className="my-2 flex items-center gap-2 text-sm font-medium"
+                >
+                  <Home className="h-4 w-4" />
+                  Início
+                </Link>
+
+                <Link
+                  href="/my-orders"
+                  onClick={() => setOpen(false)}
+                  className="my-2 flex items-center gap-2 text-sm font-medium"
+                >
+                  <Truck className="h-4 w-4" />
+                  Meus Pedidos
+                </Link>
+
+                <div
+                  onClick={() => {
+                    setOpen(false);
+                    document
+                      .querySelector<HTMLButtonElement>("#cart-button")
+                      ?.click();
+                  }}
+                  className="my-2 flex cursor-pointer items-center gap-2 text-sm font-medium"
+                >
+                  <ShoppingBag className="h-4 w-4" />
+                  Sacola
+                </div>
+              </div>
+
+              <div className="my-8">
+                <Separator />
+              </div>
+
+              <div>
+                {categories?.map((category) => (
+                  <div key={category.slug}>
+                    <Button
+                      asChild
+                      variant="ghost"
+                      className="my-1 w-full justify-start rounded-xl text-left text-sm font-medium"
+                      onClick={() => setOpen(false)}
+                    >
+                      <Link href={`/category/${category.slug}`}>
+                        {category.name}
+                      </Link>
+                    </Button>
+                  </div>
+                ))}
+              </div>
             </div>
           </SheetContent>
         </Sheet>
