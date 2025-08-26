@@ -31,6 +31,8 @@ const MyOrdersPage = async () => {
         },
       },
     },
+
+    orderBy: (orders, { desc }) => [desc(orders.createdAt)],
   });
 
   return (
@@ -42,7 +44,7 @@ const MyOrdersPage = async () => {
               <CardTitle>Meus Pedidos</CardTitle>
             </CardHeader>
             <Orders
-              orders={orders.reverse().map((order) => ({
+              orders={orders.map((order) => ({
                 id: order.id,
                 totalPriceInCents: order.totalPriceInCents,
                 status: order.status,
