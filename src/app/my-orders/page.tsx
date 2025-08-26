@@ -3,7 +3,6 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import Footer from "@/components/common/footer";
-import { Header } from "@/components/common/header";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { db } from "@/db";
 import { orderTable } from "@/db/schema";
