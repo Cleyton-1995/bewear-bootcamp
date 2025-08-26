@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { authClient } from "@/lib/auth-client";
@@ -32,6 +32,7 @@ interface HeaderProps {
 
 export const Header = ({ categories }: HeaderProps) => {
   const router = useRouter();
+  const pathname = usePathname();
   const { data: session } = authClient.useSession();
   const [open, setOpen] = useState(false);
 
@@ -40,6 +41,8 @@ export const Header = ({ categories }: HeaderProps) => {
     setOpen(false);
     router.push("/authentication");
   }
+
+  const isActive = (href: string) => pathname === href;
 
   return (
     <header className="flex items-center justify-between p-5">
@@ -116,7 +119,9 @@ export const Header = ({ categories }: HeaderProps) => {
                 <Link
                   href="/"
                   onClick={() => setOpen(false)}
-                  className="my-2 flex items-center gap-2 text-sm font-medium"
+                  className={`my-2 flex items-center gap-2 text-sm font-medium ${
+                    isActive("/") ? "text-primary font-semibold" : ""
+                  }`}
                 >
                   <Home className="h-4 w-4" />
                   Início
@@ -125,7 +130,9 @@ export const Header = ({ categories }: HeaderProps) => {
                 <Link
                   href="/my-orders"
                   onClick={() => setOpen(false)}
-                  className="my-2 flex items-center gap-2 text-sm font-medium"
+                  className={`my-2 flex items-center gap-2 text-sm font-medium ${
+                    isActive("/my-orders") ? "text-primary font-semibold" : ""
+                  }`}
                 >
                   <Truck className="h-4 w-4" />
                   Meus Pedidos
@@ -138,7 +145,9 @@ export const Header = ({ categories }: HeaderProps) => {
                       .querySelector<HTMLButtonElement>("#cart-button")
                       ?.click();
                   }}
-                  className="my-2 flex cursor-pointer items-center gap-2 text-sm font-medium"
+                  className={`my-2 flex cursor-pointer items-center gap-2 text-sm font-medium ${
+                    pathname === "/cart" ? "text-primary font-semibold" : ""
+                  }`}
                 >
                   <ShoppingBag className="h-4 w-4" />
                   Sacola
@@ -150,20 +159,23 @@ export const Header = ({ categories }: HeaderProps) => {
               </div>
 
               <div>
-                {categories?.map((category) => (
-                  <div key={category.slug}>
-                    <Button
-                      asChild
-                      variant="ghost"
-                      className="my-1 w-full justify-start rounded-xl text-left text-sm font-medium"
-                      onClick={() => setOpen(false)}
-                    >
-                      <Link href={`/category/${category.slug}`}>
-                        {category.name}
-                      </Link>
-                    </Button>
-                  </div>
-                ))}
+                {categories?.map((category) => {
+                  const href = `/category/${category.slug}`;
+                  return (
+                    <div key={category.slug}>
+                      <Button
+                        asChild
+                        variant="ghost"
+                        className={`my-1 w-full justify-start rounded-xl text-left text-sm font-medium ${
+                          isActive(href) ? "text-primary font-semibold" : ""
+                        }`}
+                        onClick={() => setOpen(false)}
+                      >
+                        <Link href={href}>{category.name}</Link>
+                      </Button>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </SheetContent>
