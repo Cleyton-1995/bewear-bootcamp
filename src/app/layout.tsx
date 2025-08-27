@@ -25,9 +25,9 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   const categories = await db.query.categoryTable.findMany({});
   return (
     <html lang="en">
@@ -36,7 +36,7 @@ export default async function RootLayout({
       >
         <ReactQueryProvider>
           <Header categories={categories} />
-          {children}
+          <main className="pt-20">{children}</main>
         </ReactQueryProvider>
         <Toaster />
       </body>
