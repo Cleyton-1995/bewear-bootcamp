@@ -55,17 +55,17 @@ async function Home() {
               height={0}
               width={0}
               sizes="50vw"
-              className="h-auto w-full rounded-2xl"
+              className="h-auto w-full rounded-2xl object-cover"
             />
 
-            <div className="grid grid-rows-2 gap-4">
+            <div className="grid grid-rows-2 gap-2">
               <Image
                 src="/Frame222.png"
                 alt="Produto destaque"
                 height={0}
                 width={0}
                 sizes="50vw"
-                className="h-auto w-full rounded-2xl"
+                className="h-full w-full rounded-2xl object-cover"
               />
               <Image
                 src="/Frame224.png"
@@ -73,7 +73,7 @@ async function Home() {
                 height={0}
                 width={0}
                 sizes="50vw"
-                className="h-auto w-full rounded-2xl"
+                className="h-full w-full rounded-2xl object-cover"
               />
             </div>
           </div>
