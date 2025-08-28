@@ -35,34 +35,37 @@ const MyOrdersPage = async () => {
   });
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <div className="flex-1 space-y-5 px-5">
-        <Card>
-          <div className="mx-5 space-y-5">
-            <CardHeader>
-              <CardTitle>Meus Pedidos</CardTitle>
-            </CardHeader>
-            <Orders
-              orders={orders.map((order) => ({
-                id: order.id,
-                totalPriceInCents: order.totalPriceInCents,
-                status: order.status,
-                createdAt: order.createdAt,
-                items: order.items.map((item) => ({
-                  id: item.id,
-                  imageUrl: item.productVariant.imageUrl,
-                  productName: item.productVariant.product.name,
-                  productVariantName: item.productVariant.name,
-                  priceInCents: item.productVariant.priceInCents,
-                  quantity: item.quantity,
-                })),
-              }))}
-            />
-          </div>
-        </Card>
+    <div className="mt-6 flex min-h-screen flex-col items-center">
+      <div className="w-full max-w-6xl flex-1 space-y-5 px-5">
+        <div className="mx-auto w-full max-w-6xl">
+          <Card>
+            <div className="space-y-5 p-5 lg:flex lg:flex-col lg:gap-6">
+              <CardHeader>
+                <CardTitle>Meus Pedidos</CardTitle>
+              </CardHeader>
+
+              <Orders
+                orders={orders.map((order) => ({
+                  id: order.id,
+                  totalPriceInCents: order.totalPriceInCents,
+                  status: order.status,
+                  createdAt: order.createdAt,
+                  items: order.items.map((item) => ({
+                    id: item.id,
+                    imageUrl: item.productVariant.imageUrl,
+                    productName: item.productVariant.product.name,
+                    productVariantName: item.productVariant.name,
+                    priceInCents: item.productVariant.priceInCents,
+                    quantity: item.quantity,
+                  })),
+                }))}
+              />
+            </div>
+          </Card>
+        </div>
       </div>
 
-      <div className="mt-12">
+      <div className="mt-12 w-full">
         <Footer />
       </div>
     </div>
