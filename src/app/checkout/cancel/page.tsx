@@ -32,7 +32,7 @@ const CheckoutCancelPage = () => {
             compra.
           </DialogDescription>
 
-          <DialogFooter>
+          <DialogFooter className="flex flex-col gap-4 lg:flex-col">
             <Button
               className="rounded-full"
               variant="outline"
