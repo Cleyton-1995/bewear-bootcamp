@@ -28,7 +28,7 @@ const CartSummary = ({
       <CardHeader>
         <CardTitle>Resumo</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3">
+      <CardContent className="space-y-3.5">
         <div className="flex justify-between">
           <p className="text-sm">Subtotal</p>
           <p className="text-muted-foreground text-sm font-medium">
