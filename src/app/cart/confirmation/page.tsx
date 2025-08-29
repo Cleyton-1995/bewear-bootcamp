@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import Footer from "@/components/common/footer";
+import { Header } from "@/components/common/header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { db } from "@/db";
 import { auth } from "@/lib/auth";
@@ -43,7 +44,6 @@ const ConfirmationPage = async () => {
     redirect("/cart/identification");
   }
   return (
-<<<<<<< HEAD
     <>
       <Header />
 
@@ -67,43 +67,6 @@ const ConfirmationPage = async () => {
               </CardContent>
             </Card>
           </div>
-=======
-    <div className="flex-colmt-6 mt-6 flex min-h-dvh flex-col">
-      <div className="mx-auto w-full max-w-6xl flex-1 space-y-10 px-5 lg:flex lg:gap-8 lg:space-y-0 lg:px-20">
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>Confirmação</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <Card>
-                <CardContent>
-                  <p className="text-sm">
-                    {formatAddress(cart.shippingAddress)}
-                  </p>
-                </CardContent>
-              </Card>
-              <FinishOrderButton />
-            </CardContent>
-          </Card>
-        </div>
-
-        <div>
-          <CartSummary
-            subtotalInCents={cartTotalInCents}
-            totalInCents={cartTotalInCents}
-            products={cart.items.map((item) => ({
-              id: item.productVariant.id,
-              name: item.productVariant.product.name,
-              variantName: item.productVariant.name,
-              quantity: item.quantity,
-              priceInCents: item.productVariant.priceInCents,
-              imageUrl: item.productVariant.imageUrl,
-            }))}
-          />
-        </div>
-      </div>
->>>>>>> c3ef3fbd491d48c057d0a8286059511e057c87e1
 
           <div className="md:col-span-4">
             <CartSummary
