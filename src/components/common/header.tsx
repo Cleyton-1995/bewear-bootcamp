@@ -4,8 +4,9 @@ import {
   LogInIcon,
   LogOutIcon,
   MenuIcon,
-  ShoppingBag,
-  Truck,
+  Package,
+  Search,
+  User2,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,25 +17,41 @@ import { authClient } from "@/lib/auth-client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import { Separator } from "../ui/separator";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
 import { Cart } from "./cart";
+import SearchCommand from "./search";
 
-interface HeaderProps {
-  categories?: { id: string; name: string; slug: string }[];
-}
+const NAV = [
+  { href: "/category/camisetas", label: "Camisetas" },
+  { href: "/category/bermuda-shorts", label: "Bermuda & Shorts" },
+  { href: "/category/calas", label: "Calças" },
+  { href: "/category/jaquetas-moletons", label: "Jaquetas & Moletons" },
+  { href: "/category/tnis", label: "Tênis" },
+  { href: "/category/acessrios", label: "Acessórios" },
+];
 
-export const Header = ({ categories }: HeaderProps) => {
+export const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
   const { data: session } = authClient.useSession();
   const [open, setOpen] = useState(false);
+  const [openSearch, setOpenSearch] = useState(false);
 
   async function handleLogout() {
     await authClient.signOut();
@@ -42,147 +59,235 @@ export const Header = ({ categories }: HeaderProps) => {
     router.push("/authentication");
   }
 
+  const goToSearch = (term: string) => {
+    const q = term.trim();
+    if (!q) return;
+    setOpenSearch(false);
+    router.push(`/search/${encodeURIComponent(q)}`);
+  };
+
   const isActive = (href: string) => pathname === href;
 
   return (
-    <header className="flex items-center justify-between p-5">
-      <Link href="/">
-        <Image src="/logo.svg" alt="BEWEAR" width={100} height={26.14} />
-      </Link>
-
-      <div className="flex items-center gap-3">
-        <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger asChild>
-            <Button variant="outline" size="icon">
-              <MenuIcon />
-            </Button>
-          </SheetTrigger>
-
-          <SheetContent>
-            <SheetHeader>
-              <SheetTitle>Menu</SheetTitle>
-            </SheetHeader>
-
-            <div className="px-5">
-              {session?.user ? (
-                <>
-                  <div className="flex justify-between space-y-3">
-                    <div className="flex items-center gap-3">
-                      <Avatar>
-                        <AvatarImage
-                          src={session?.user?.image as string | undefined}
-                        />
-                        <AvatarFallback>
-                          {session?.user?.name?.split(" ")?.[0]?.[0]}
-                          {session?.user?.name?.split(" ")?.[1]?.[0]}
-                        </AvatarFallback>
-                      </Avatar>
-
-                      <div className="text-left">
-                        <h3 className="font-semibold">{session?.user?.name}</h3>
-                        <span className="text-muted-foreground block text-xs">
-                          {session?.user?.email}
-                        </span>
-                      </div>
-                    </div>
-
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={handleLogout}
-                    >
-                      <LogOutIcon />
-                    </Button>
-                  </div>
-                </>
-              ) : (
-                <div className="flex items-center justify-between">
-                  <h2 className="font-semibold">Olá. Faça seu login!</h2>
-                  <Button
-                    size="icon"
-                    asChild
-                    variant="outline"
-                    onClick={() => setOpen(false)}
-                  >
-                    <Link href="/authentication">
-                      <LogInIcon />
-                    </Link>
-                  </Button>
-                </div>
-              )}
-
-              <div className="my-5">
-                <Separator />
-              </div>
-
-              <div className="flex flex-col gap-2 text-left">
-                <Link
-                  href="/"
-                  onClick={() => setOpen(false)}
-                  className={`my-2 flex items-center gap-2 text-sm font-medium ${
-                    isActive("/") ? "text-primary font-semibold" : ""
-                  }`}
+    <header className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-md">
+      <div className="mx-auto max-w-6xl px-4">
+        <div className="grid grid-cols-3 items-center py-3 md:py-4">
+          <div className="flex items-center gap-3">
+            <Sheet open={open} onOpenChange={setOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="rounded-2xl md:hidden"
+                  aria-label="Abrir menu"
                 >
-                  <Home className="h-4 w-4" />
-                  Início
-                </Link>
+                  <MenuIcon />
+                </Button>
+              </SheetTrigger>
 
-                <Link
-                  href="/my-orders"
-                  onClick={() => setOpen(false)}
-                  className={`my-2 flex items-center gap-2 text-sm font-medium ${
-                    isActive("/my-orders") ? "text-primary font-semibold" : ""
-                  }`}
-                >
-                  <Truck className="h-4 w-4" />
-                  Meus Pedidos
-                </Link>
-
-                <div
-                  onClick={() => {
-                    setOpen(false);
-                    document
-                      .querySelector<HTMLButtonElement>("#cart-button")
-                      ?.click();
-                  }}
-                  className={`my-2 flex cursor-pointer items-center gap-2 text-sm font-medium ${
-                    pathname === "/cart" ? "text-primary font-semibold" : ""
-                  }`}
-                >
-                  <ShoppingBag className="h-4 w-4" />
-                  Sacola
-                </div>
-              </div>
-
-              <div className="my-8">
-                <Separator />
-              </div>
-
-              <div>
-                {categories?.map((category) => {
-                  const href = `/category/${category.slug}`;
-                  return (
-                    <div key={category.slug}>
+              <SheetContent side="left" className="w-[86vw] max-w-sm">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between pl-1">
+                    <SheetTitle className="ml-2">Menu</SheetTitle>
+                    <SheetClose asChild>
                       <Button
-                        asChild
                         variant="ghost"
-                        className={`my-1 w-full justify-start rounded-xl text-left text-sm font-medium ${
-                          isActive(href) ? "text-primary font-semibold" : ""
-                        }`}
-                        onClick={() => setOpen(false)}
+                        size="icon"
+                        className="rounded-full"
+                        aria-label="Fechar"
+                      />
+                    </SheetClose>
+                  </div>
+                  {session?.user ? (
+                    <div className="flex items-center justify-between rounded-2xl border bg-slate-50 p-3">
+                      <div className="flex items-center gap-3">
+                        <Avatar>
+                          <AvatarImage src={session.user.image ?? ""} />
+                          <AvatarFallback>
+                            {session.user?.name?.split(" ")?.[0]?.[0]}
+                            {session.user?.name?.split(" ")?.[1]?.[0]}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="text-sm font-semibold">
+                            Olá, {session.user.name?.split(" ")?.[0]}
+                          </p>
+                          <span className="text-xs text-slate-500">
+                            {session.user.email}
+                          </span>
+                        </div>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => authClient.signOut()}
+                        aria-label="Sair"
                       >
-                        <Link href={href}>{category.name}</Link>
+                        <LogOutIcon />
                       </Button>
                     </div>
-                  );
-                })}
-              </div>
-            </div>
-          </SheetContent>
-        </Sheet>
+                  ) : (
+                    <div className="flex items-center justify-between rounded-2xl border bg-slate-50 p-3">
+                      <p className="text-sm font-semibold">
+                        Olá. Faça seu login!
+                      </p>
+                      <Button asChild className="rounded-full">
+                        <Link href="/authentication">
+                          Login <LogInIcon className="ml-2 h-4 w-4" />
+                        </Link>
+                      </Button>
+                    </div>
+                  )}
 
-        <Cart />
+                  <nav className="space-y-1">
+                    <Link
+                      href="/"
+                      className={`flex items-center gap-3 rounded-xl p-3 hover:bg-slate-50 ${
+                        isActive("/") && pathname === "/" ? "text-primary" : ""
+                      }`}
+                    >
+                      <Home className="h-4 w-4" /> Início
+                    </Link>
+                    <Link
+                      href="/my-orders"
+                      className={`flex items-center gap-3 rounded-xl p-3 hover:bg-slate-50 ${
+                        isActive("/my-orders") ? "text-primary" : ""
+                      }`}
+                    >
+                      <Package className="h-4 w-4" /> Meus Pedidos
+                    </Link>
+
+                    <Separator className="my-2" />
+                    {NAV.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className={`block rounded-xl p-3 hover:bg-slate-50 ${
+                          isActive(item.href) ? "text-primary" : ""
+                        }`}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </nav>
+                </div>
+              </SheetContent>
+            </Sheet>
+
+            <div className="hidden md:block">
+              {session?.user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="flex items-center gap-2 text-sm text-slate-700 hover:text-black">
+                    <User2 className="h-4 w-4" />
+                    Olá,{" "}
+                    <span className="font-semibold">
+                      {session.user.name?.split(" ")?.[0]}
+                    </span>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-56">
+                    <DropdownMenuLabel>
+                      <div className="flex items-center gap-2">
+                        <Avatar className="h-6 w-6">
+                          <AvatarImage src={session.user.image ?? ""} />
+                          <AvatarFallback>
+                            {session.user?.name?.split(" ")?.[0]?.[0]}
+                            {session.user?.name?.split(" ")?.[1]?.[0]}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="truncate text-sm">
+                          {session.user.email}
+                        </div>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link href="/my-orders">Meus pedidos</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={() => authClient.signOut()}
+                      className="text-red-600 focus:text-red-700"
+                    >
+                      <LogOutIcon className="mr-2 h-4 w-4" /> Sair da conta
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="flex items-center gap-2 text-sm text-slate-700 hover:text-black">
+                    <User2 className="h-4 w-4" />
+                    Fazer login
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-56">
+                    <DropdownMenuItem asChild>
+                      <Link href="/authentication">
+                        <LogInIcon className="mr-2 h-4 w-4" /> Fazer login
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+            </div>
+          </div>
+          <div className="flex items-center justify-center">
+            <Link href="/" aria-label="BEWEAR">
+              <Image
+                src="/logo.svg"
+                alt="BEWEAR"
+                width={110}
+                height={28}
+                priority
+              />
+            </Link>
+          </div>
+
+          <div className="flex items-center justify-end gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-2xl"
+              aria-label="Buscar"
+              onClick={() => setOpenSearch(true)}
+            >
+              <Search className="h-5 w-5" />
+            </Button>
+
+            <Cart />
+          </div>
+        </div>
+
+        <nav className="hidden items-center justify-center gap-6 pb-3 text-sm text-slate-700 md:flex">
+          {NAV.map((item) => {
+            const active = isActive(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`rounded-full px-2 py-1 hover:text-black ${
+                  active ? "text-primary" : ""
+                }`}
+              >
+                <span
+                  className={`inline-block pb-1 ${
+                    active
+                      ? "border-primary border-b-2"
+                      : "border-b-2 border-transparent"
+                  }`}
+                >
+                  {item.label}
+                </span>
+              </Link>
+            );
+          })}
+        </nav>
       </div>
+      <Separator />
+
+      <SearchCommand
+        open={openSearch}
+        onOpenChange={setOpenSearch}
+        onSubmit={goToSearch}
+      />
     </header>
   );
 };
