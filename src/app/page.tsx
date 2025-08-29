@@ -1,9 +1,13 @@
 import { desc } from "drizzle-orm";
 import Image from "next/image";
 
+import BrandCarousel from "@/components/common/brand";
+import CategorySelector from "@/components/common/category-selector";
 import Footer from "@/components/common/footer";
 import { Header } from "@/components/common/header";
+import HeroBanner from "@/components/common/hero";
 import ProductList from "@/components/common/product-list";
+import PromoGrid from "@/components/common/promo-grid";
 import { db } from "@/db";
 import { categoryTable, productTable } from "@/db/schema";
 
@@ -18,39 +22,27 @@ async function Home() {
   });
 
   const categories = await db.query.categoryTable.findMany({});
-
   return (
     <>
-      <div className="space-y-6">
-        <div className="px-5">
-          <Image
-            src="/banner-01.png"
-            alt="Leve uma vida com estilo"
-            height={0}
-            width={0}
-            sizes="100vw"
-            className="h-auto w-full"
-          />
-        </div>
+      <Header />
+      <main className="mx-auto max-w-6xl space-y-8 px-0 pb-10 md:px-4">
+        <HeroBanner />
+
+        <BrandCarousel />
 
         <ProductList products={products} title="Mais vendidos" />
 
-        <div className="px-5">
-          <Image
-            src="/banner-02.png"
-            alt="Leve uma vida com estilo"
-            height={0}
-            width={0}
-            sizes="100vw"
-            className="h-auto w-full"
-          />
-        </div>
+        <section className="px-5">
+          <CategorySelector categories={categories} />
+        </section>
 
         <ProductList products={newlyCreatedProducts} title="Novos produtos" />
 
-        <div className="mt-12">
-          <Footer />
-        </div>
+        <PromoGrid />
+      </main>
+
+      <div className="mt-12">
+        <Footer />
       </div>
     </>
   );
