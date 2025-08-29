@@ -9,7 +9,7 @@ import HeroBanner from "@/components/common/hero";
 import ProductList from "@/components/common/product-list";
 import PromoGrid from "@/components/common/promo-grid";
 import { db } from "@/db";
-import { categoryTable, productTable } from "@/db/schema";
+import { productTable } from "@/db/schema";
 
 async function Home() {
   const products = await db.query.productTable.findMany({

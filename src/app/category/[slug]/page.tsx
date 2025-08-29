@@ -2,7 +2,6 @@ import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 
 import Footer from "@/components/common/footer";
-import { Header } from "@/components/common/header";
 import ProductItem from "@/components/common/product-item";
 import { db } from "@/db";
 import { categoryTable, productTable } from "@/db/schema";
@@ -25,13 +24,11 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
     with: { variants: true },
   });
 
-  const categories = await db.query.categoryTable.findMany({});
-
   return (
-    <div className="flex min-h-screen flex-col">
-      <div className="flex-1 space-y-5 px-5">
+    <div className="mt-6 flex min-h-screen flex-col">
+      <div className="mx-auto w-full max-w-6xl flex-1 space-y-5 px-5">
         <h2 className="text-xl font-semibold">{category.name}</h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {products.map((product) => (
             <ProductItem
               key={product.id}

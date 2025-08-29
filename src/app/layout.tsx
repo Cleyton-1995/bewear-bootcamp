@@ -24,9 +24,9 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   const categories = await db.query.categoryTable.findMany({});
   return (
     <html lang="en">

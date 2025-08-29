@@ -30,7 +30,7 @@ const CheckoutSuccessPage = () => {
             na seção de “Meus Pedidos”.
           </DialogDescription>
 
-          <DialogFooter>
+          <DialogFooter className="flex flex-col gap-4 lg:flex-col">
             <Button className="rounded-full" size="lg" asChild>
               <Link href="/my-orders">Ver meus pedidos</Link>
             </Button>
