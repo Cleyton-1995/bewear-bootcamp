@@ -3,6 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 
 import Footer from "@/components/common/footer";
+import { Header } from "@/components/common/header";
 import ProductList from "@/components/common/product-list";
 import { db } from "@/db";
 import { productTable, productVariantTable } from "@/db/schema";
@@ -17,78 +18,92 @@ interface ProductVariantPageProps {
 
 const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
   const { slug } = await params;
+
   const productVariant = await db.query.productVariantTable.findFirst({
     where: eq(productVariantTable.slug, slug),
     with: {
       product: {
         with: {
           variants: true,
+          category: true,
         },
       },
     },
   });
-  if (!productVariant) {
-    return notFound();
-  }
+  if (!productVariant) return notFound();
+
   const likelyProducts = await db.query.productTable.findMany({
     where: eq(productTable.categoryId, productVariant.product.categoryId),
-    with: {
-      variants: true,
-    },
+    with: { variants: true },
+    limit: 8,
   });
+
   return (
-    <div className="mt-6 flex min-h-dvh flex-col">
-      <div className="mx-auto w-full max-w-6xl flex-1 space-y-10 px-5">
-        <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
-          <div className="flex flex-col gap-4 lg:flex-row">
-            <div className="order-1 flex-1 lg:order-2">
+    <>
+      <Header />
+
+      <main className="mx-auto max-w-6xl px-5 py-6 md:px-4">
+        <section className="md:grid md:grid-cols-12 md:gap-8">
+          <div className="md:col-span-7">
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl bg-slate-50">
               <Image
                 src={productVariant.imageUrl}
                 alt={productVariant.name}
-                sizes="100vw"
-                height={0}
-                width={0}
-                className="w-full rounded-2xl object-cover"
+                fill
+                sizes="(max-width:768px) 100vw, 640px"
+                className="object-cover"
+                priority
+              />
+            </div>
+
+            <div className="mt-4 md:hidden">
+              <VariantSelector
+                selectedVariantSlug={productVariant.slug}
+                variants={productVariant.product.variants}
               />
             </div>
           </div>
 
-          <div className="flex flex-col space-y-6 self-start">
-            <div>
-              <h2 className="ml-5 text-2xl font-semibold">
-                {productVariant.product.name}
-              </h2>
-              <h3 className="text-muted-foreground ml-5 text-sm">
-                {productVariant.name}
-              </h3>
-              <h3 className="mt-2 ml-5 text-xl font-bold">
-                {formatCentsToBRL(productVariant.priceInCents)}
-              </h3>
+          <div className="mt-6 md:col-span-5 md:mt-0">
+            <h1 className="md:text-2x text-xl font-semibold">
+              {productVariant.product.name}
+            </h1>
+            <p className="text-xs text-slate-500 md:text-sm">
+              {productVariant.name}
+            </p>
+
+            <div className="mt-3 text-lg font-bold md:text-xl">
+              {formatCentsToBRL(productVariant.priceInCents)}
             </div>
-            <div className="ml-5">
+
+            <div className="mt-4 hidden md:block">
               <VariantSelector
                 selectedVariantSlug={productVariant.slug}
                 variants={productVariant.product.variants}
               />
             </div>
 
-            <ProductActions productVariantId={productVariant.id} />
+            <div className="mt-6 space-y-6">
+              <ProductActions productVariantId={productVariant.id} />
 
-            <p className="text-muted-foreground ml-5 leading-relaxed">
-              {productVariant.product.description}
-            </p>
+              <div>
+                <p className="text-xs leading-relaxed text-slate-600 md:text-sm">
+                  {productVariant.product.description}
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
 
         <ProductList
-          title="Você também pode gostar"
+          title="Produtos que vai gostar"
           products={likelyProducts}
+          seeAllHref={`/products?category=${productVariant.product.categoryId}&excludeProductId=${productVariant.product.id}`}
         />
-      </div>
-      <div className="mt-12">
-        <Footer />
-      </div>
-    </div>
+      </main>
+
+      <Footer />
+    </>
   );
 };
 
