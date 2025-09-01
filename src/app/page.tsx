@@ -26,17 +26,22 @@ async function Home() {
     <>
       <Header />
       <main className="mx-auto max-w-6xl space-y-8 px-0 pb-10 md:px-4">
-        <HeroBanner />
+        <div className="mx-0 md:mx-5">
+          <HeroBanner />
+        </div>
 
         <BrandCarousel />
 
-        <ProductList products={products} title="Mais vendidos" />
+        <div className="mx-5">
+          <ProductList products={products} title="Mais vendidos" />
+        </div>
 
         <section className="px-5">
           <CategorySelector categories={categories} />
         </section>
-
-        <ProductList products={newlyCreatedProducts} title="Novos produtos" />
+        <div className="mx-5">
+          <ProductList products={newlyCreatedProducts} title="Novos produtos" />
+        </div>
 
         <PromoGrid />
       </main>
