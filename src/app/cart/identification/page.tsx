@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import Footer from "@/components/common/footer";
+import { Header } from "@/components/common/header";
 import { db } from "@/db";
 import { shippingAddressTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
@@ -46,35 +47,37 @@ const IdentificationPage = async () => {
   );
 
   return (
-    <div className="mt-6 flex min-h-dvh flex-col">
-      <div className="mx-auto w-full max-w-6xl flex-1 space-y-10 px-5 lg:flex lg:gap-8 lg:space-y-0 lg:px-20">
-        <div>
-          <Addresses
-            shippingAddresses={shippingAddresses}
-            defaultShippingAddressId={cart.shippingAddress?.id || null}
-          />
-        </div>
+    <>
+      <Header />
+      <main className="mx-auto max-w-6xl px-5 py-6 md:px-4">
+        <div className="grid gap-6 md:grid-cols-12">
+          <div className="md:col-span-8">
+            <Addresses
+              shippingAddresses={shippingAddresses}
+              defaultShippingAddressId={cart.shippingAddress?.id || null}
+            />
+          </div>
 
-        <div className="">
-          <CartSummary
-            subtotalInCents={cartTotalInCents}
-            totalInCents={cartTotalInCents}
-            products={cart.items.map((item) => ({
-              id: item.productVariant.id,
-              name: item.productVariant.product.name,
-              variantName: item.productVariant.name,
-              quantity: item.quantity,
-              priceInCents: item.productVariant.priceInCents,
-              imageUrl: item.productVariant.imageUrl,
-            }))}
-          />
+          <div className="md:col-span-4">
+            <CartSummary
+              subtotalInCents={cartTotalInCents}
+              totalInCents={cartTotalInCents}
+              products={cart.items.map((item) => ({
+                id: item.productVariant.id,
+                name: item.productVariant.product.name,
+                variantName: item.productVariant.name,
+                quantity: item.quantity,
+                priceInCents: item.productVariant.priceInCents,
+                imageUrl: item.productVariant.imageUrl,
+              }))}
+            />
+          </div>
         </div>
-      </div>
-
-      <div className="mt-12">
+      </main>
+      <div className="mt-48">
         <Footer />
       </div>
-    </div>
+    </>
   );
 };
 
