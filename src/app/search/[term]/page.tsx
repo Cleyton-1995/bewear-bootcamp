@@ -26,7 +26,7 @@ export default async function SearchPage({
   return (
     <>
       <Header />
-      <main className="mx-auto max-w-6xl px-5 py-6 md:px-4">
+      <main className="mx-auto min-h-screen max-w-6xl px-5 py-6 md:px-4">
         <div className="mb-4">
           <h1 className="text-lg font-semibold md:text-2xl">
             Resultados para “{term}”
@@ -43,7 +43,9 @@ export default async function SearchPage({
           ))}
         </div>
       </main>
-      <Footer />
+      <div className="mt-auto">
+        <Footer />
+      </div>
     </>
   );
 }
