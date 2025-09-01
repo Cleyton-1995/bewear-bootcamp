@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { Header } from "@/components/common/header";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,6 +16,7 @@ import {
 const CheckoutSuccessPage = () => {
   return (
     <>
+      <Header />
       <Dialog open={true} onOpenChange={() => {}}>
         <DialogContent className="text-center">
           <Image
@@ -35,7 +37,7 @@ const CheckoutSuccessPage = () => {
               <Link href="/my-orders">Ver meus pedidos</Link>
             </Button>
             <Button
-              className="rounded-full"
+              className="w-full rounded-full"
               variant="outline"
               size="lg"
               asChild
