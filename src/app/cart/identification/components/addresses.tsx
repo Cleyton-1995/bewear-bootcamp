@@ -375,7 +375,7 @@ const Addresses = ({
                 />
               </div>
 
-              <div>
+              <div className="flex items-center gap-3">
                 <Button
                   type="submit"
                   className="w-full rounded-full"
