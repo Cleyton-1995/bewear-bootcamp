@@ -52,7 +52,7 @@ const ConfirmationPage = async () => {
           <div className="md:col-span-8">
             <Card className="rounded-2xl border-slate-200">
               <CardHeader>
-                <CardTitle>Identificação</CardTitle>
+                <CardTitle>Confirmação</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <Card>
@@ -85,7 +85,9 @@ const ConfirmationPage = async () => {
         </div>
       </main>
 
-      <Footer />
+      <div className="mt-56">
+        <Footer />
+      </div>
     </>
   );
 };
