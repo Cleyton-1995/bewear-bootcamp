@@ -1,8 +1,10 @@
 "use client";
 
+import { XCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { Header } from "@/components/common/header";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,15 +17,14 @@ import {
 const CheckoutCancelPage = () => {
   return (
     <>
+      <Header />
+
       <Dialog open={true} onOpenChange={() => {}}>
         <DialogContent className="text-center">
-          <Image
-            src="/illustration.svg"
-            alt="Cancel"
-            width={300}
-            height={300}
-            className="mx-auto"
-          />
+          <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-red-50">
+            <XCircle className="h-12 w-12 text-red-600" aria-hidden="true" />
+          </div>
+
           <DialogTitle className="mt-4 text-2xl text-red-600">
             Pedido cancelado!
           </DialogTitle>
@@ -41,7 +42,7 @@ const CheckoutCancelPage = () => {
             >
               <Link href="/my-orders">Ver meus pedidos</Link>
             </Button>
-            <Button className="rounded-full" size="lg" asChild>
+            <Button className="w-full rounded-full" size="lg" asChild>
               <Link href="/">Voltar para a loja</Link>
             </Button>
           </DialogFooter>
