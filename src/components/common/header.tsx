@@ -69,7 +69,7 @@ export const Header = () => {
   const isActive = (href: string) => pathname === href;
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full bg-white backdrop-blur-md">
       <div className="mx-auto max-w-6xl px-4">
         <div className="grid grid-cols-3 items-center py-3 md:py-4">
           <div className="flex items-center gap-3">
