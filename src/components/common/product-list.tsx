@@ -36,19 +36,11 @@ const ProductList = ({
         <h3 className="font-semibold">{title}</h3>
 
         <div className="hidden items-center gap-2 md:flex">
-          <Button
-            variant="ghost"
-            size="sm"
-            asChild
-            className="rounded-full px-3"
-          >
-            <Link href={seeAllHref}>Ver todos</Link>
-          </Button>
           <div className="flex gap-1">
             <Button
               variant="outline"
               size="icon"
-              className="rounded-full"
+              className="rounded-full border-0"
               onClick={() => scrollBy(-320)}
               aria-label="Scroll para a esquerda"
             >
@@ -57,11 +49,19 @@ const ProductList = ({
             <Button
               variant="outline"
               size="icon"
-              className="rounded-full"
+              className="rounded-full border-0"
               onClick={() => scrollBy(320)}
               aria-label="Scroll para a direita"
             >
               <ChevronRight className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              asChild
+              className="rounded-full px-3"
+            >
+              <Link href={seeAllHref}>Ver todos</Link>
             </Button>
           </div>
         </div>
