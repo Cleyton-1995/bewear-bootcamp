@@ -36,7 +36,7 @@ async function Home() {
           <ProductList products={products} title="Mais vendidos" />
         </div>
 
-        <section className="px-5">
+        <section className="px-5 md:hidden">
           <CategorySelector categories={categories} />
         </section>
         <div className="mx-5">
