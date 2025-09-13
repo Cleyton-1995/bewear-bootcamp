@@ -45,7 +45,7 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
       <main className="mx-auto max-w-6xl px-5 py-6 md:px-4">
         <section className="md:grid md:grid-cols-12 md:gap-8">
           <div className="md:col-span-7">
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl bg-slate-50">
+            <div className="relative aspect-[3/3] w-full overflow-hidden rounded-3xl bg-slate-50">
               <Image
                 src={productVariant.imageUrl}
                 alt={productVariant.name}
