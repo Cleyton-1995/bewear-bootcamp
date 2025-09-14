@@ -124,32 +124,50 @@ export default function Orders({ orders }: OrderProps) {
             >
               <AccordionItem value={`item-${order.id}`} className="border-0">
                 {/* Cabeçalho responsivo */}
-                <AccordionTrigger className="px-4 py-4 md:flex md:items-center md:justify-between md:border-b md:text-left md:text-sm md:font-medium md:text-slate-700 [&>svg]:hidden md:[&>svg]:hidden">
+                <AccordionTrigger className="px-4 py-4 md:flex md:items-center md:justify-between md:text-left md:text-sm md:font-medium md:text-slate-700 [&>svg]:hidden md:[&>svg]:hidden">
                   {/* Mobile */}
-                  <div className="block text-left md:hidden">
-                    <span className="text-sm font-semibold text-slate-900">
-                      Número do Pedido{" "}
-                    </span>
-                    <span className="text-xs text-slate-500">
-                      {formatOrderNumber(idx)}
-                    </span>
-                    <div className="mt-1">
-                      {order.status === "paid" && (
-                        <Badge className="bg-emerald-500 hover:bg-emerald-500/90">
-                          Pago
-                        </Badge>
-                      )}
-                      {order.status === "pending" && (
-                        <Badge
-                          variant="outline"
-                          className="border-amber-600 text-amber-600"
-                        >
-                          Pagamento pendente
-                        </Badge>
-                      )}
-                      {order.status === "canceled" && (
-                        <Badge variant="destructive">Cancelado</Badge>
-                      )}
+                  <div className="flex w-full items-start justify-between md:hidden">
+                    <div className="block text-left">
+                      <span className="text-sm font-semibold text-slate-900">
+                        Número do Pedido{" "}
+                      </span>
+                      <span className="text-xs text-slate-500">
+                        {formatOrderNumber(idx)}
+                      </span>
+                      <div className="mt-1">
+                        {order.status === "paid" && (
+                          <Badge className="bg-emerald-500 hover:bg-emerald-500/90">
+                            Pago
+                          </Badge>
+                        )}
+                        {order.status === "pending" && (
+                          <Badge
+                            variant="outline"
+                            className="border-amber-600 text-amber-600"
+                          >
+                            Pagamento pendente
+                          </Badge>
+                        )}
+                        {order.status === "canceled" && (
+                          <Badge variant="destructive">Cancelado</Badge>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <svg
+                        className="h-4 w-4 shrink-0 transition-transform duration-200 data-[state=open]:rotate-180"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="6,9 12,15 18,9"></polyline>
+                      </svg>
                     </div>
                   </div>
 
@@ -194,7 +212,7 @@ export default function Orders({ orders }: OrderProps) {
                   </div>
                   <div className="hidden md:flex md:items-center md:gap-2">
                     <svg
-                      className="h-4 w-4 shrink-0 transition-transform duration-200"
+                      className="h-4 w-4 shrink-0 transition-transform duration-200 data-[state=open]:rotate-180"
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
                       height="24"
@@ -215,6 +233,16 @@ export default function Orders({ orders }: OrderProps) {
 
                 {/* Conteúdo do Accordion */}
                 <AccordionContent className="space-y-4 px-4 pt-1 pb-4 md:p-4">
+                  {/* Separator para mobile */}
+                  <div className="md:hidden">
+                    <Separator />
+                  </div>
+
+                  {/* Separator para desktop quando aberto */}
+                  <div className="hidden md:block">
+                    <Separator />
+                  </div>
+
                   {/* Itens */}
                   <div className="space-y-4">
                     {order.items.map((item, i) => (
