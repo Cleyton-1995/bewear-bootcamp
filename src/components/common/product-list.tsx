@@ -55,8 +55,8 @@ const ProductList = ({
       <div className="flex items-center justify-between">
         <h3 className="font-semibold">{title}</h3>
 
-        <div className="hidden items-center gap-2 md:flex">
-          <div className="flex gap-1">
+        <div className="flex items-center gap-2">
+          <div className="hidden gap-1 md:flex">
             <Button
               variant="outline"
               size="icon"
@@ -77,15 +77,15 @@ const ProductList = ({
             >
               <ChevronRight className="h-4 w-4" />
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              asChild
-              className="rounded-full px-3"
-            >
-              <Link href={seeAllHref}>Ver todos</Link>
-            </Button>
           </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            asChild
+            className="rounded-full px-3"
+          >
+            <Link href={seeAllHref}>Ver todos</Link>
+          </Button>
         </div>
       </div>
 
