@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Footer from "@/components/common/footer";
 import { Header } from "@/components/common/header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import StepsCheckout from "@/components/ui/steps-checkout";
 import { db } from "@/db";
 import { auth } from "@/lib/auth";
 
@@ -47,12 +48,14 @@ const ConfirmationPage = async () => {
     <>
       <Header />
 
+      <StepsCheckout current="payment" />
+
       <main className="mx-auto max-w-6xl px-5 py-6 md:px-4">
         <div className="grid gap-6 md:grid-cols-12">
           <div className="md:col-span-8">
             <Card className="rounded-2xl border-slate-200">
               <CardHeader>
-                <CardTitle>Confirmação</CardTitle>
+                <CardTitle>Pagamento</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <Card>
