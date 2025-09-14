@@ -50,9 +50,9 @@ export default function BrandCarousel({
 }) {
   return (
     <section className="space-y-3">
-      <h3 className="px-5 font-semibold">Marcas parceiras</h3>
+      <h3 className="font-semibold">Marcas parceiras</h3>
 
-      <div className="mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth [scrollbar-width:none] md:hidden [&::-webkit-scrollbar]:hidden">
+      <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth [scrollbar-width:none] md:hidden [&::-webkit-scrollbar]:hidden">
         {brands.map((b) => (
           <div
             key={b.name}
@@ -63,7 +63,7 @@ export default function BrandCarousel({
         ))}
       </div>
 
-      <div className="mx-5 hidden grid-cols-3 gap-3 sm:grid-cols-4 md:grid md:grid-cols-7">
+      <div className="hidden grid-cols-3 gap-3 sm:grid-cols-4 md:grid md:grid-cols-7">
         {brands.map((b) => (
           <BrandCard key={b.name} brand={b} />
         ))}
