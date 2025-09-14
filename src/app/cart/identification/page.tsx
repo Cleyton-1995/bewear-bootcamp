@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 
 import Footer from "@/components/common/footer";
 import { Header } from "@/components/common/header";
+import StepsCheckout from "@/components/ui/steps-checkout";
 import { db } from "@/db";
 import { shippingAddressTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
@@ -49,6 +50,9 @@ const IdentificationPage = async () => {
   return (
     <>
       <Header />
+
+      <StepsCheckout current="identification" />
+
       <main className="mx-auto max-w-6xl px-5 py-6 md:px-4">
         <div className="grid gap-6 md:grid-cols-12">
           <div className="md:col-span-8">
