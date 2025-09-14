@@ -2,7 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import ProductItem from "@/components/common/product-item";
 import { productTable, productVariantTable } from "@/db/schema";
@@ -23,6 +23,26 @@ const ProductList = ({
   seeAllHref = "/products",
 }: ProductListProps) => {
   const scrollerRef = useRef<HTMLDivElement | null>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const updateScrollButtons = () => {
+    const el = scrollerRef.current;
+    if (!el) return;
+
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth);
+  };
+
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+
+    updateScrollButtons();
+    el.addEventListener("scroll", updateScrollButtons);
+
+    return () => el.removeEventListener("scroll", updateScrollButtons);
+  }, [products]);
 
   const scrollBy = (delta: number) => {
     const el = scrollerRef.current;
@@ -31,8 +51,8 @@ const ProductList = ({
   };
 
   return (
-    <section className="ml-[-18px] space-y-3">
-      <div className="flex items-center justify-between px-5">
+    <section className="space-y-3">
+      <div className="flex items-center justify-between">
         <h3 className="font-semibold">{title}</h3>
 
         <div className="hidden items-center gap-2 md:flex">
@@ -42,6 +62,7 @@ const ProductList = ({
               size="icon"
               className="rounded-full border-0"
               onClick={() => scrollBy(-320)}
+              disabled={!canScrollLeft}
               aria-label="Scroll para a esquerda"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -51,6 +72,7 @@ const ProductList = ({
               size="icon"
               className="rounded-full border-0"
               onClick={() => scrollBy(320)}
+              disabled={!canScrollRight}
               aria-label="Scroll para a direita"
             >
               <ChevronRight className="h-4 w-4" />
@@ -69,7 +91,9 @@ const ProductList = ({
 
       <div
         ref={scrollerRef}
-        className="flex w-full gap-4 overflow-x-auto px-5 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className={`flex w-full gap-4 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+          canScrollLeft ? "pl-0" : "pl-0"
+        }`}
       >
         {products.map((product) => (
           <ProductItem key={product.id} product={product} />
