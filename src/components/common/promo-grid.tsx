@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 
 export default function PromoGrid() {
   return (
-    <section className="mx-5 grid gap-4 md:grid-cols-3">
+    <section className="grid gap-4 md:grid-cols-3">
       <div className="grid gap-4">
         <PromoCard
           title="Nike Therma FIT Headed"
