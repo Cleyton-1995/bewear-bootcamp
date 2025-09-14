@@ -33,14 +33,22 @@ async function Home() {
         <BrandCarousel />
 
         <div className="mx-5">
-          <ProductList products={products} title="Mais vendidos" />
+          <ProductList
+            products={products}
+            title="Mais vendidos"
+            seeAllHref="/products/bestsellers"
+          />
         </div>
 
         <section className="px-5 md:hidden">
           <CategorySelector categories={categories} />
         </section>
         <div className="mx-5">
-          <ProductList products={newlyCreatedProducts} title="Novos produtos" />
+          <ProductList
+            products={newlyCreatedProducts}
+            title="Novos produtos"
+            seeAllHref="/products/new"
+          />
         </div>
 
         <PromoGrid />
