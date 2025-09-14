@@ -30,7 +30,9 @@ async function Home() {
           <HeroBanner />
         </div>
 
-        <BrandCarousel />
+        <div className="mx-5">
+          <BrandCarousel />
+        </div>
 
         <div className="mx-5">
           <ProductList
@@ -40,9 +42,10 @@ async function Home() {
           />
         </div>
 
-        <section className="px-5 md:hidden">
+        <section className="mx-5 md:hidden">
           <CategorySelector categories={categories} />
         </section>
+
         <div className="mx-5">
           <ProductList
             products={newlyCreatedProducts}
@@ -51,7 +54,9 @@ async function Home() {
           />
         </div>
 
-        <PromoGrid />
+        <div className="mx-5">
+          <PromoGrid />
+        </div>
       </main>
 
       <div className="mt-12">
