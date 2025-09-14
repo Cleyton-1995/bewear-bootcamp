@@ -1,10 +1,32 @@
+import { and, eq, ne } from "drizzle-orm";
 import Footer from "@/components/common/footer";
 import { Header } from "@/components/common/header";
 import ProductItem from "@/components/common/product-item";
 import { db } from "@/db";
+import { productTable } from "@/db/schema";
 
-async function ProductsPage() {
+interface ProductsPageProps {
+  searchParams: Promise<{
+    category?: string;
+    excludeProductId?: string;
+  }>;
+}
+
+async function ProductsPage({ searchParams }: ProductsPageProps) {
+  const { category, excludeProductId } = await searchParams;
+
+  const whereConditions = [];
+
+  if (category) {
+    whereConditions.push(eq(productTable.categoryId, category));
+  }
+
+  if (excludeProductId) {
+    whereConditions.push(ne(productTable.id, excludeProductId));
+  }
+
   const products = await db.query.productTable.findMany({
+    where: whereConditions.length > 0 ? and(...whereConditions) : undefined,
     with: { variants: true },
   });
 
@@ -15,7 +37,7 @@ async function ProductsPage() {
       <main className="mx-auto max-w-6xl px-5 py-6 md:px-4">
         <div className="mb-4 flex flex-col gap-1 md:mb-6 md:flex-row md:items-end md:justify-between">
           <h2 className="text-xl font-semibold md:text-2xl">
-            Todos os produtos
+            {category ? "Produtos da categoria" : "Todos os produtos"}
           </h2>
 
           <p className="text-sm text-slate-500">
