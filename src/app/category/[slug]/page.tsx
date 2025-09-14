@@ -8,11 +8,11 @@ import { db } from "@/db";
 import { categoryTable, productTable } from "@/db/schema";
 
 interface CategoryPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 const CategoryPage = async ({ params }: CategoryPageProps) => {
-  const { slug } = params;
+  const { slug } = await params;
 
   const category = await db.query.categoryTable.findFirst({
     where: eq(categoryTable.slug, slug),
